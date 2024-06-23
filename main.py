@@ -79,6 +79,7 @@ class Puzzle():
                         self.__Grid.append(C)
                 self.__Score = int(f.readline().rstrip())
                 self.__SymbolsLeft = int(f.readline().rstrip())
+                print(f"Symbols Left: {self.__SymbolsLeft}")
         except:
             print("Puzzle not loaded")
             Main()
@@ -111,13 +112,15 @@ class Puzzle():
                 except:
                     print("invalid input")
             Symbol = self.__GetSymbolFromUser()
-            self.__SymbolsLeft -= 1
             CurrentCell = self.__GetCell(Row, Column)
-            if CurrentCell.CheckSymbolAllowed(Symbol):
+            if CurrentCell.GetSymbol() == "@":
+                print("@ is a blocked cell")
+            elif CurrentCell.CheckSymbolAllowed(Symbol):
                 CurrentCell.ChangeSymbolInCell(Symbol)
                 AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
                 if AmountToAddToScore > 0:
                     self.__Score += AmountToAddToScore
+                self.__SymbolsLeft -= 1
             if self.__SymbolsLeft == 0:
                 Finished = True
         print()
